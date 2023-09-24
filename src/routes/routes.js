@@ -1,5 +1,5 @@
 const ActionRouter = require('./ActionHistoryRoutes');
-const PublishRouter = require('./Mosquitto');
+const PublishRouter = require('./MosquittoRoutes');
 const DataSensorRouter = require('./DataSensorRoute');
 
 function route(app) {

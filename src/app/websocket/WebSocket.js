@@ -3,11 +3,11 @@ const websocket = require('ws');
 
 function Websocket(app) {
     const server = http.createServer(app);
+    server.listen(8000);
     const wss = new websocket.Server({server: server});
 
     wss.on('connection', (ws) => {
         console.log("Client connected");
-
         ws.on('message', (msg) => {
             console.log(`Received ${msg}`);
             wss.clients.forEach(client => {
@@ -21,7 +21,6 @@ function Websocket(app) {
             console.log('Client disconnected');
         });
     });
-    server.listen(8000);
 };
 
 module.exports = Websocket;
