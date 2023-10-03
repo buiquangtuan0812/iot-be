@@ -31,6 +31,27 @@ class DataSensor {
             result(null, {id: res.insertId, ...newData});
         })
     }
+
+    static filterByDay(day, result) {
+        sql.query("SELECT * FROM data_sensor WHERE time LIKE ?", [`${day}%`], (err, res) => {
+            if (err) {
+                result(null, err);
+                return;
+            }
+            result(null, res)
+        })
+    }
+
+    static filterByHour(start, end, result) {
+        sql.query("SELECT * FROM data_sensor WHERE time >= ? AND time <= ?", 
+                [`${start}%`, `${end}%`], (err, res) => {
+                    if (err) {
+                        result(null, err);
+                        return;
+                    }
+                    result(null, res);
+        });
+    }
 }
 
 module.exports = DataSensor;

@@ -6,7 +6,7 @@ exports.findAll = (req, res) => {
             res.status(500).send({message: err.message});
         }
         else {
-            res.status(200).send(data);
+            res.status(200).send(data.reverse());
         }
     })
 }
@@ -33,5 +33,31 @@ exports.addNew = (req, res) => {
         else {
             res.status(200).send({message: "Add successfully"});
         }
-    })
+    });
+};
+
+exports.filterByDay = (req, res) => {
+    const day = req.param('time');
+    ActionHistory.filterByDay(day, (err, data) => {
+        if (err) {
+            res.status(err).send({message: err.message});
+        }
+        else {
+            res.status(200).send(data.reverse());
+        }
+    });
+};
+
+exports.filterByHour = (req, res) => {
+    const start = req.param('start');
+    const end = req.param('end');
+
+    ActionHistory.filterByTime(start, end, (err, data) => {
+        if (err) {
+            res.status(500).send(err);
+        }
+        else {
+            res.status(200).send(data.reverse()); 
+        }
+    });
 }

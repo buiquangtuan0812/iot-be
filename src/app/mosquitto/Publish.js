@@ -1,12 +1,13 @@
 const mqtt = require('mqtt');
-const mqttClient = mqtt.connect(1883);
+const mqttClient = mqtt.connect("mqtt://broker.emqx.io", 8083);
+const ActionHistoryCtrl = require('../controller/ActionController');
 
 exports.publishOn = (req, res) => {
-    mqttClient.publish('esp8266/light', "on led");
-    res.send({message: "Turn on the light"});
+    // ActionHistoryCtrl.addNew(req, res);
+    mqttClient.publish('esp8266/led/controll', "on led");
 };
 
 exports.publishOff = (req, res) => {
-    mqttClient.publish('esp8266/light', 'off led');
-    res.send({message: "Turn off the light"});
+    // ActionHistoryCtrl.addNew(req, res);
+    mqttClient.publish('esp8266/led/controll', 'off led');
 };

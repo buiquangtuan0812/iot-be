@@ -4,6 +4,7 @@ const router = express.Router();
 const DataSensorController = require('../app/controller/DataSensorController');
 
 router.get('/get-all', DataSensorController.findAll);
-router.post('/add', DataSensorController.addNew);
+router.get('/filter-by-day', DataSensorController.filter);
+router.get('/filter-by-hour', DataSensorController.filterByHour);
 
 module.exports = router;

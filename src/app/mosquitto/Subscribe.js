@@ -1,9 +1,9 @@
 const mqtt = require('mqtt');
-const mqttClient = mqtt.connect(1883);
-const topic = "esp8266/light";
+const mqttClient = mqtt.connect("mqtt://broker.emqx.io", 8083);
+const topic = "esp8266/led";
 const http = require('http');
 const websocket = require('ws');
-var data = {};
+const DataSensor = require('../model/DataSensor');
 
 function Subscribe(app) {
     const server = http.createServer(app);
@@ -19,12 +19,40 @@ function Subscribe(app) {
         });
     });
     mqttClient.on('message', (receivedTopic, message) => { 
-        data['msg'] = message.toString();
-        data['topic'] = receivedTopic;
+        const data = JSON.parse(message);
+        const date = new Date();
+        const year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        month = month < 10 ? '0' + month : month;
+        let day = date.getDate();
+        day = day < 10 ? '0' + day : day;
+        let hour = date.getHours();
+        hour = hour < 10 ? '0' + hour : hour;
+        let minute = date.getMinutes();
+        minute = minute < 10 ? '0' + minute : minute;
+        let second = date.getSeconds();
+        second = second < 10 ? '0' + second : second;
+        const time = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+        data["time"] = time;
         console.log(data);
+        // const newDataSensor = new DataSensor({
+        //     ssid: 1,
+        //     temperature: data["temp"],
+        //     humidity: data["humidity"],
+        //     brightness: data["bright"],
+        //     time: time
+        // });
+        // DataSensor.create(newDataSensor, (err, data) => {
+        //     if (err) {
+        //         console.log(err);
+        //     }
+        //     else {
+        //         console.log("Sensor created");
+        //     }
+        // })
         wss.clients.forEach(client => {
             if (client.readyState === websocket.OPEN) {
-                client.send(message);
+                client.send(JSON.stringify(data));
             }
         });
     
