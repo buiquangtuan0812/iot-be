@@ -1,8 +1,8 @@
 const mqtt = require('mqtt');
 const mqttClient = mqtt.connect("mqtt://broker.emqx.io", 8083);
-const topic = "esp8266/led";
-const http = require('http');
-const websocket = require('ws');
+const topic = "esp8266/datasensor";
+const http = require('http'); // tạo máy chủ http
+const websocket = require('ws'); // tạo máy chủ websocket
 const DataSensor = require('../model/DataSensor');
 
 function Subscribe(app) {
@@ -35,13 +35,13 @@ function Subscribe(app) {
         const time = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
         data["time"] = time;
         console.log(data);
-        // const newDataSensor = new DataSensor({
-        //     ssid: 1,
-        //     temperature: data["temp"],
-        //     humidity: data["humidity"],
-        //     brightness: data["bright"],
-        //     time: time
-        // });
+        const newDataSensor = new DataSensor({
+            ssid: 1,
+            temperature: data["temp"],
+            humidity: data["humidity"],
+            brightness: data["bright"],
+            time: time
+        });
         // DataSensor.create(newDataSensor, (err, data) => {
         //     if (err) {
         //         console.log(err);

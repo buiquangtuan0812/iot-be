@@ -10,6 +10,9 @@ function route(app) {
         );
         next();
     });
+    app.use('/', function(req, res) {
+        res.status(200).send({message: "Server is running!"});
+    });
     app.use('/action-history', ActionRouter);
     app.use('/data-sensor', DataSensorRouter);
     app.use('/mosquitto', PublishRouter);
