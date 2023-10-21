@@ -3,7 +3,8 @@ const router = express.Router();
 
 const publish = require('../app/mosquitto/Publish');
 
-router.post('/led/turn-on', publish.publishOn);
-router.post('/led/turn-off', publish.publishOff);
+router.post('/led/controll', publish.PublishControll);
+router.post('/warning', publish.PublishWarning);
+
 
 module.exports = router;

@@ -11,27 +11,28 @@ exports.findAll = (req, res) => {
     })
 }
 
-exports.addNew = (req, res) => {
-
-    if (!req.body) {
-        res.status(404).send({
-            message: 'Body is empty'
-        });
+exports.addNew = (data) => {
+    let action;
+    if (data.type === "Light") {
+        action = data.action.slice(0, 7);
+    }
+    else {
+        action = data.action.slice(7, data.action.length);
     }
 
     const newAction = new ActionHistory({
-        ssid: req.body.ssid,
-        type: req.body.type,
-        action: req.body.action,
-        time: req.body.time
+        ssid: data.ssid,
+        type: data.type,
+        action: action,
+        time: data.time
     });
 
     ActionHistory.create(newAction, (err, data) => {
         if (err) {
-            res.status(500).send({message: err.message});
+            console.log("Create failed: " + err);
         }
         else {
-            res.status(200).send({message: "Add successfully"});
+            console.log("Add successfully");
         }
     });
 };

@@ -7,6 +7,7 @@ class DataSensor {
         this.temperature = data.temperature;
         this.humidity = data.humidity;
         this.brightness = data.brightness;
+        this.dustLevel = data.dustLevel;
         this.time = data.time;
     }
 

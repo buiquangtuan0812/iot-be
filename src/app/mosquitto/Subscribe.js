@@ -34,22 +34,24 @@ function Subscribe(app) {
         second = second < 10 ? '0' + second : second;
         const time = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
         data["time"] = time;
-        console.log(data);
+        const dustLevel = Math.floor(Math.random() * (100 - 15)) + 15;
+        data["dustLevel"] = dustLevel;
         const newDataSensor = new DataSensor({
             ssid: 1,
             temperature: data["temp"],
             humidity: data["humidity"],
             brightness: data["bright"],
+            dustLevel: data["dustLevel"],
             time: time
         });
-        // DataSensor.create(newDataSensor, (err, data) => {
-        //     if (err) {
-        //         console.log(err);
-        //     }
-        //     else {
-        //         console.log("Sensor created");
-        //     }
-        // })
+        DataSensor.create(newDataSensor, (err, data) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Sensor created");
+            }
+        })
         wss.clients.forEach(client => {
             if (client.readyState === websocket.OPEN) {
                 client.send(JSON.stringify(data));
