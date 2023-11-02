@@ -6,7 +6,7 @@ exports.findAll = (req, res) => {
             res.status(500).send({message: err.message});
         }
         else {
-            res.status(200).send(data.reverse());
+            res.status(200).send(data);
         }
     })
 }
@@ -44,7 +44,7 @@ exports.filterByDay = (req, res) => {
             res.status(err).send({message: err.message});
         }
         else {
-            res.status(200).send(data.reverse());
+            res.status(200).send(data);
         }
     });
 };
@@ -58,7 +58,7 @@ exports.filterByHour = (req, res) => {
             res.status(500).send(err);
         }
         else {
-            res.status(200).send(data.reverse()); 
+            res.status(200).send(data); 
         }
     });
 }
