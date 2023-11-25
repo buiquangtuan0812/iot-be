@@ -43,14 +43,37 @@ class DataSensor {
         })
     }
 
-    static filterByHour(start, end, result) {
-        sql.query("SELECT * FROM data_sensor WHERE time >= ? AND time <= ?", 
-                [`${start}%`, `${end}%`], (err, res) => {
+    static filterByColumn(column, start, end, result) {
+        if (end !== '') {
+            sql.query("SELECT ssid, ??, time from data_sensor WHERE time >= ? AND time <= ?",
+                [column, `${start}%`, `${end}%`], (err, res) => {
                     if (err) {
                         result(null, err);
                         return;
                     }
                     result(null, res);
+            });
+        } 
+        else {
+            sql.query("SELECT ssid, ??, time from data_sensor WHERE time LIKE ?",
+                [column, `${start}%`], (err, res) => {
+                    if (err) {
+                        result(null, err);
+                        return;
+                    }
+                    result(null, res);
+                });
+        }
+    }
+
+    static filterByHour(start, end, result) {
+        sql.query("SELECT * FROM data_sensor WHERE time >= ? AND time <= ?", 
+            [`${start}%`, `${end}%`], (err, res) => {
+                if (err) {
+                    result(null, err);
+                    return;
+                }
+                result(null, res);
         });
     }
 }

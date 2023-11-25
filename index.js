@@ -8,6 +8,7 @@ const route = require('./src/routes/routes');
 const bodyParser = require('body-parser');
 const db = require('./src/config/connectDb');
 const subscribe = require('./src/app/mosquitto/Subscribe');
+subscribe(app);
 
 
 db;
@@ -17,6 +18,5 @@ app.use(morgan('combined'));
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000}));
 route(app);
-subscribe(app);
 
 app.listen(port);

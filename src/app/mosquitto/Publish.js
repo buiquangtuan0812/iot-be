@@ -9,8 +9,6 @@ mqttClient.on('error', (error) => {
 
 exports.PublishControll = (req, res) => {
     const data = req.body;
-    console.log(data.action);
-
     ActionHistoryCtrl.addNew(data);
     mqttClient.publish('esp8266/led/controll', data.action, (error) => {
         if (error) {

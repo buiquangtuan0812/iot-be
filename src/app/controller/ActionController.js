@@ -13,11 +13,13 @@ exports.findAll = (req, res) => {
 
 exports.addNew = (data) => {
     let action;
-    if (data.type === "Light") {
-        action = data.action.slice(0, 7);
-    }
-    else {
-        action = data.action.slice(7, data.action.length);
+    if (data.action !== undefined) {
+        if (data.type === "Light") {
+            action = data.action.slice(0, 7).trim();
+        }
+        else {
+            action = data.action.slice(7, data.action.length).trim();
+        }
     }
 
     const newAction = new ActionHistory({

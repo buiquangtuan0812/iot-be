@@ -37,26 +37,53 @@ exports.addNew = (req, res) => {
 
 exports.filter = (req, res) => {
     const time = req.param('time');
-    DataSensor.filterByDay(time, (err, data) => {
-        if (err) {
-            res.status(err).send({message: err.message});
-        }
-        else {
-            res.status(200).send(data);
-        }
-    });
+    const column = req.param('column');
+    if (column === 'All') {
+        DataSensor.filterByDay(time, (err, data) => {
+            if (err) {
+                res.status(err).send({message: err.message});
+            }
+            else {
+                res.status(200).send(data);
+            }
+        });
+    }
+    else {
+        DataSensor.filterByColumn(column, time, '', (err, data) => {
+            if (err) {
+                res.status(err).send({message: err.message});
+            }
+            else {
+                res.status(200).send(data);
+            }
+        })
+    }
 }
 
 exports.filterByHour = (req, res) => {
-    const start = req.param('start');
     const end = req.param('end');
+    const start = req.param('start');
+    const column = req.param('column');
 
-    DataSensor.filterByHour(start, end, (err, data) => {
-        if (err) {
-            res.status(err).send({message: err.message});
-        }
-        else {
-            res.status(200).send(data);
-        }
-    });
+    if (column === 'All') {
+        DataSensor.filterByHour(start, end, (err, data) => {
+            if (err) {
+                res.status(err).send({message: err.message});
+            }
+            else {
+                res.status(200).send(data);
+            }
+        });
+    }
+    else {
+        DataSensor.filterByColumn(column, start, end, (err, data) => {
+            if (err) {
+                res.status(err).send({message: err.message});
+            }
+            else {
+                res.status(200).send(data);
+            }
+        });
+    }
+
 }
